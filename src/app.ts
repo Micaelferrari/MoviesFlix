@@ -1,3 +1,4 @@
+import { getMovies } from './controller/moviesController';
 import express, { Request, Response} from "express";
 
 function createApp() {
@@ -5,9 +6,7 @@ function createApp() {
 
   app.use(express.json());
 
-  app.get("/", (req: Request, res: Response) => {
-    res.status(200).json({ movie: "Deus é bom" });
-  });
+  app.get("/", getMovies);
 
   return app;
 }
