@@ -1,3 +1,6 @@
-    export const getMoviesServices = async () =>{
-        return { movie: "Toy Story 3" };
-    } 
+import { findAllMovies } from './../repositories/MoviesRepositories';
+
+export const getMoviesServices = async () => {
+  const data = await findAllMovies()
+  return data;
+};
