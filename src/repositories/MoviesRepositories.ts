@@ -54,8 +54,6 @@ export const findAllMovies = async (): Promise<MoviesModel[]> => {
   return dataBase;
 };
 
-export const findMovieById = async (
-  id: number
-): Promise<MoviesModel | undefined> => {
+export const findMovieById = async ( id: number): Promise<MoviesModel | undefined> => {
   return dataBase.find((movie) => movie.id === id);
 };

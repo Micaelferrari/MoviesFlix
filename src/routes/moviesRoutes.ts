@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { getAllMovies } from "../controller/moviesController";
+import { getAllMovies, getMovieById } from "../controller/moviesController";
 
 const moviesRoutes = Router();
 
-moviesRoutes.get("/", getAllMovies);
+moviesRoutes.get("/list", getAllMovies);
+moviesRoutes.get("/:id", getMovieById);
 
 export default moviesRoutes;
