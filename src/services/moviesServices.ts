@@ -1,6 +1,6 @@
 import { findAllMovies } from './../repositories/MoviesRepositories';
 
-export const getMoviesServices = async () => {
+export const getAllMoviesServices = async () => {
   const data = await findAllMovies()
   return data;
 };

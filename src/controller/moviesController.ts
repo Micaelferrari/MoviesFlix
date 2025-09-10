@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { getMoviesServices } from "./../services/moviesServices";
+import { getAllMoviesServices } from "./../services/moviesServices";
 
-export const getMovies = async (req: Request, res: Response) => {
-  const data = await getMoviesServices();
+export const getAllMovies = async (req: Request, res: Response) => {
+  const data = await getAllMoviesServices();
   res.status(200).json(data);
 };
