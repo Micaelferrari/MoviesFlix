@@ -1,3 +1,4 @@
+import { MoviesModel } from './../models/MoviesModel';
 import * as  MoviesRepositories  from './../repositories/MoviesRepositories';
 
 export const getAllMoviesServices = async () => {
@@ -10,4 +11,15 @@ export const getMovieByIdServices = async (id : number) => {
 const data = MoviesRepositories.findMovieById(id)
 
 return data;
+}
+
+export const createMovieServices = async (id : number, name : string, description : string) =>{
+
+//implementar validações
+
+const newMovie : MoviesModel = { id, name, description}
+
+const creatMovie = MoviesRepositories.creatMovie(newMovie);
+
+return creatMovie;
 }
