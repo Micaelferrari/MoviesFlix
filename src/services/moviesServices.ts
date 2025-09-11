@@ -1,25 +1,28 @@
-import { MoviesModel } from './../models/MoviesModel';
-import * as  MoviesRepositories  from './../repositories/MoviesRepositories';
+import { MoviesModel } from "./../models/MoviesModel";
+import * as MoviesRepositories from "./../repositories/MoviesRepositories";
 
 export const getAllMoviesServices = async () => {
-  const data = await MoviesRepositories.findAllMovies()
+  const data = await MoviesRepositories.findAllMovies();
   return data;
 };
 
-export const getMovieByIdServices = async (id : number) => {
+export const getMovieByIdServices = async (id: number) => {
   //pedir para o repositório
-const data = MoviesRepositories.findMovieById(id)
+  const data = MoviesRepositories.findMovieById(id);
 
-return data;
-}
+  return data;
+};
 
-export const createMovieServices = async (id : number, name : string, description : string) =>{
+export const createMovieServices = async (
+  id: number,
+  name: string,
+  description: string
+) => {
+  //implementar validações
 
-//implementar validações
+  const newMovie: MoviesModel = { id, name, description };
 
-const newMovie : MoviesModel = { id, name, description}
+  const creatMovie = MoviesRepositories.creatMovie(newMovie);
 
-const creatMovie = MoviesRepositories.creatMovie(newMovie);
-
-return creatMovie;
-}
+  return creatMovie;
+};

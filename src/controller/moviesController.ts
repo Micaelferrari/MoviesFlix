@@ -2,24 +2,56 @@ import { Request, Response } from "express";
 import * as service from "./../services/moviesServices";
 
 export const getAllMovies = async (req: Request, res: Response) => {
-  const data = await service.getAllMoviesServices();
-  res.status(200).json(data);
+  try {
+    const data = await service.getAllMoviesServices();
+
+    if (data.length === 0) {
+      res.status(204).json("Não há filmes");
+    }
+
+    return res.status(200).json(data);
+  } catch (error: any) {
+    return res
+      .status(400)
+      .json({ error: error.message || "Erro no servidor " });
+  }
 };
 
 export const getMovieById = async (req: Request, res: Response) => {
-  const id = Number(req.params.id);
+  try {
+    const id = Number(req.params.id);
 
-  const data = await service.getMovieByIdServices(id);
+    if (isNaN(id) || id <= 0) {
+     return res.status(400).json("Id inválido.");
+    }
 
-  res.status(200).json(data);
+    const data = await service.getMovieByIdServices(id);
+
+    if(!data){
+      return res.status(404).json("Filme não encontrado")
+    }
+
+    res.status(200).json(data);
+  } catch (error: any) {
+    res.status(400).json({ error: error.message || "Erro no servidor" });
+  }
 };
 
-export const createMovie = async (req : Request, res : Response) => {
+export const createMovie = async (req: Request, res: Response) => {
+  
+  try{
+    const { id, name, description } = req.body;
+  
+    if( !name || !description){
+      return res.status(404).json("Nome e Descrição são obrigatórios")
+    }
 
-  const { id, name, description } = req.body;
+    const data = await service.createMovieServices(id, name, description);
+  
+    res.status(201).json(" Filme criado com sucesso");
+    
+  } catch( error : any){
+    return res.status(400).json({error : error.message || "Erro no servidor"})
+  }
 
-  const data = await service.createMovieServices(id, name, description);
-
-  res.status(201).json(" Filme criado com sucesso");
-
-}
+};
