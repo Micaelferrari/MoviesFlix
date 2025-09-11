@@ -26,3 +26,10 @@ export const createMovieServices = async (
 
   return creatMovie;
 };
+
+export const deleteMovie = async (id : number) =>{
+
+ const deleted = await MoviesRepositories.deleteOneMovie(id);
+
+ return deleted
+}
