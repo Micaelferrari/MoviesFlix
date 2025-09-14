@@ -6,7 +6,7 @@ export const getAllMovies = async (req: Request, res: Response) => {
     const data = await service.getAllMoviesServices();
 
     if (data.length === 0) {
-      res.status(204).json("Não há filmes");
+      return res.status(204).json("Não há filmes");
     }
 
     return res.status(200).json(data);
@@ -61,12 +61,12 @@ export const deleteMovie = async (req: Request, res: Response) => {
 
     const deleted = await service.deleteMovie(id);
 
-    if (deleted === null || deleted === undefined) {
+    if (!deleted) {
       return res.status(404).json({ error: "Filme não encontrado" });
     }
 
     return res.status(200).json({ message: "Filme deletado com sucesso" });
   } catch (error: any) {
-    return res.status(400).json({ error: error.menssage || "Erro no servidor" });
+    return res.status(400).json({ error: error.message || "Erro no servidor" });
   }
 };

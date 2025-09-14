@@ -65,13 +65,14 @@ export const creatMovie = async (movie : MoviesModel) : Promise<MoviesModel | un
 
 export const deleteOneMovie = async (id : number) =>{
 
-  const index  = dataBase.findIndex((m) =>{m.id === id});
+  const index  = dataBase.findIndex((m) =>m.id === id);
 
-  if(index !== -1){
-    return false
+  if(index === -1){
+    false
   }
-
-  dataBase.slice(index, 1)
+  
+  
+  dataBase.splice(index, 1)
 
   return true
 }
