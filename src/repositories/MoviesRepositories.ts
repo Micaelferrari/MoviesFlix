@@ -1,4 +1,4 @@
-import { MoviesModel } from "../models/MoviesModel";
+import { MoviesModel } from './../models/MoviesModel';
 
 const dataBase: MoviesModel[] = [
   {
@@ -54,25 +54,39 @@ export const findAllMovies = async (): Promise<MoviesModel[]> => {
   return dataBase;
 };
 
-export const findMovieById = async ( id: number): Promise<MoviesModel | undefined> => {
+export const findMovieById = async (
+  id: number
+): Promise<MoviesModel | undefined> => {
   return dataBase.find((movie) => movie.id === id);
 };
 
-export const creatMovie = async (movie : MoviesModel) : Promise<MoviesModel | undefined> =>{
-   dataBase.push(movie)
-   return movie;
-}
+export const creatMovie = async (
+  movie: MoviesModel
+): Promise<MoviesModel | undefined> => {
+  dataBase.push(movie);
+  return movie;
+};
 
-export const deleteOneMovie = async (id : number) =>{
+export const deleteOneMovie = async (id: number) => {
+  const index = dataBase.findIndex((m) => m.id === id);
 
-  const index  = dataBase.findIndex((m) =>m.id === id);
-
-  if(index === -1){
-    false
+  if (index === -1) {
+    false;
   }
-  
-  
-  dataBase.splice(index, 1)
 
-  return true
+  dataBase.splice(index, 1);
+
+  return true;
+};
+
+export const updateOneMovie = async (id : number, body : MoviesModel) : Promise<MoviesModel> => {
+
+  const movieIndex = dataBase.findIndex( movie => movie.id === id) 
+
+  if(movieIndex !== -1){
+        dataBase[movieIndex] = body;
+        return dataBase[movieIndex];
+  } else {
+        throw new Error('Filme não encontrado');
+  }
 }

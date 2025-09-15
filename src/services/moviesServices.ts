@@ -1,19 +1,20 @@
+import { updateMovie } from './../controller/moviesController';
 import { MoviesModel } from "./../models/MoviesModel";
 import * as MoviesRepositories from "./../repositories/MoviesRepositories";
 
-export const getAllMoviesServices = async () => {
+export const getAllMoviesService = async () => {
   const data = await MoviesRepositories.findAllMovies();
   return data;
 };
 
-export const getMovieByIdServices = async (id: number) => {
+export const getMovieByIdService = async (id: number) => {
   //pedir para o repositório
   const data = MoviesRepositories.findMovieById(id);
 
   return data;
 };
 
-export const createMovieServices = async (
+export const createMovieService = async (
   id: number,
   name: string,
   description: string
@@ -27,9 +28,15 @@ export const createMovieServices = async (
   return creatMovie;
 };
 
-export const deleteMovie = async (id : number) =>{
+export const deleteMovieService = async (id : number) =>{
 
  const deleted = await MoviesRepositories.deleteOneMovie(id);
 
  return deleted
+}
+
+export const updateMovieService = async (id : number, body : MoviesModel)  =>{
+   const upMovies = await MoviesRepositories.updateOneMovie(id, body);
+
+return upMovies;
 }
