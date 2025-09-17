@@ -90,3 +90,7 @@ export const updateMovie = async (req: Request, res: Response) => {
     return res.status(500).json({ error: error.message || "Erro no servidor" });
   }
 };
+
+
+//validar existencia de um usuário, services
+//
