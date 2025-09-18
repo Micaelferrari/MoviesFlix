@@ -1,3 +1,4 @@
+import { createMovie } from "./../controller/moviesController";
 import { usersModel } from "./../models/usersModel";
 
 const usersDataBase = [
@@ -32,7 +33,26 @@ export const findAllUsers = async (): Promise<usersModel[]> => {
   return usersDataBase;
 };
 
-export const findUserById = async (id: number): Promise<usersModel | undefined> => {
-    return usersDataBase.find((user) => user.id === id);
-}
+export const findUserById = async (
+  id: number
+): Promise<usersModel | undefined> => {
+  return usersDataBase.find((user) => user.id === id);
+};
 
+export const createUser = async (user: usersModel) => {
+  usersDataBase.push(user);
+
+  return user;
+};
+
+export const deleteUSer = async (id : number) =>{
+  const index = usersDataBase.findIndex((user) => user.id === id);
+
+  if(index === -1){
+    false
+  }
+
+  usersDataBase.splice(index, 1);
+
+  return true;
+}
