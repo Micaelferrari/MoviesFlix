@@ -31,3 +31,8 @@ const usersDataBase = [
 export const findAllUsers = async (): Promise<usersModel[]> => {
   return usersDataBase;
 };
+
+export const findUserById = async (id: number): Promise<usersModel | undefined> => {
+    return usersDataBase.find((user) => user.id === id);
+}
+
