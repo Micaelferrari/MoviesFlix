@@ -29,13 +29,14 @@ export const createMovieService = async (
 };
 
 export const deleteMovieService = async (id : number) =>{
-
+//implementar validações
  const deleted = await MoviesRepositories.deleteOneMovie(id);
 
  return deleted
 }
 
 export const updateMovieService = async (id : number, body : MoviesModel)  =>{
+  //implementar validações 
    const upMovies = await MoviesRepositories.updateOneMovie(id, body);
 
 return upMovies;
