@@ -3,8 +3,12 @@ import * as usersRepositories from '../repositories/usersRepositories'
 
 
 export const getAllUsers = async () =>{
-    const data = await usersRepositories.findAllUsers()
-    return data;
+    try{
+    const users = await usersRepositories.findAllUsers()
+    return users;
+    }catch(error :any){
+        throw new Error("Erro ao buscar usuário");
+    }
 }
 
 export const getUserById = async (id : number)=>{

@@ -56,7 +56,7 @@ export const deleteOneUSer = async (id : number) =>{
   return true;
 }
 
-export const updateUser = async (id: number, body : usersModel): Promise<usersModel> =>{
+export const updateUser = async (id: number, body : usersModel): Promise<usersModel | null > =>{
   
   const userIndex = usersDataBase.findIndex( (user)=> user.id === id);
 
@@ -65,6 +65,6 @@ export const updateUser = async (id: number, body : usersModel): Promise<usersMo
 
     return usersDataBase[userIndex];
   }else{
-    throw new Error("usuário não encontrado"); 
+    return null;
   }
 }
