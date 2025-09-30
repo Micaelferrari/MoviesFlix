@@ -15,7 +15,13 @@ export const getUserById = async (id : number)=>{
 export const createUser = async (id : number, name : string, email : string) =>{
     const newUser : usersModel = {id, name, email};
 
-    const createUser = usersRepositories.createUser(newUser);
+    const createUser = await usersRepositories.createUser(newUser);
 
     return createUser;
+}
+
+export const deleteUser = async (id: number) =>{
+    const deleteuser = await usersRepositories.deleteOneUSer(id);
+
+    return deleteUser;
 }

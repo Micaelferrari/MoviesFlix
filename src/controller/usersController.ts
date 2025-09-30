@@ -17,19 +17,38 @@ export const getAllUsers = async (req: Request, res: Response) => {
 };
 
 export const getUserById = async (req: Request, res: Response) => {
-    try {
-        const id = Number(req.params.id);
+  try {
+    const id = Number(req.params.id);
 
-        const data = await serviceUser.getUserById(id);
-        
-    } catch (error : any) {
-         console.log(error.message);
+    const data = await serviceUser.getUserById(id);
+    return res.status(200).json(data);
+  } catch (error: any) {
+    console.log(error.message);
     return res.status(500).json("Erro no servidor");
-    }
+  }
 };
 
-export const createUser = async (req: Request, res: Response) => {};
+export const createUser = async (req: Request, res: Response) => {
+  const { id, name, email } = req.body;
 
+  if (!name || !email) {
+    return res.status(400).json({ error: "Nome e email são obrigatórios" });
+  }
+
+  if(typeof name !== "string" || typeof email !== "string"){
+    return res.status(400).json({error :"Nome e Email devem ser string"})
+  }
+
+ try {
+
+  const data = await serviceUser.createUser(id, name, email);
+
+  res.status(201).json({data, message :"Usuário criado com sucesso"})
+ } catch (error : any) {
+  console.log(error.message);
+    return res.status(500).json("Erro no servidor");
+ }
+}
 export const deleteUser = async (req: Request, res: Response) => {};
 
 export const updateUser = async (req: Request, res: Response) => {};

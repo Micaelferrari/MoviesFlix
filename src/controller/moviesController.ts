@@ -48,7 +48,7 @@ export const createMovie = async (req: Request, res: Response) => {
 
     const data = await service.createMovieService(id, name, description);
 
-    res.status(201).json(" Filme criado com sucesso");
+    res.status(201).json({data, message : " Filme criado com sucesso"});
   } catch (error: any) {
     return res.status(500).json({ error: error.message || "Erro no servidor" });
   }
