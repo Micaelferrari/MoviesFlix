@@ -38,11 +38,19 @@ export const findUserById = async (
   return usersDataBase.find((user) => user.id === id);
 };
 
+export const findUserByEmail= async (
+  email : string
+): Promise<usersModel | undefined> => {
+  return usersDataBase.find((user) => user.email === email );
+};
+
 export const createUser = async (user: usersModel) => {
   usersDataBase.push(user);
 
   return user;
 };
+
+
 
 export const deleteOneUSer = async (id : number) =>{
   const index = usersDataBase.findIndex((user) => user.id === id);

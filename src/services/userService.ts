@@ -45,9 +45,9 @@ export const createUser = async (id : number, name : string, email : string) =>{
 
     const newUser : usersModel = {id, name, email};
 
-    const createUser = await usersRepositories.createUser(newUser);
+    const createdUser = await usersRepositories.createUser(newUser);
 
-    return createUser;
+    return createdUser;
         
     } catch (error : any) {
          throw new Error( error.message || "Erro ao criar usuário.")
@@ -61,8 +61,21 @@ export const deleteUser = async (id: number) =>{
 }
 
 export const updateUser = async (id : number, body : usersModel) =>{
+    
+    const verifyExistUser = await usersRepositories.findUserById(id);
 
-    const updateUser = await usersRepositories.updateUser(id, body);
+    if(!verifyExistUser){
+        throw new Error("Usuário não encontrado");
+    }
 
+    const userToUpdate: usersModel = {
+    ...verifyExistUser,
+    ...body
+};
+    const updateUser = await usersRepositories.updateUser(id, userToUpdate);
+
+    if(!updateUser){
+        throw new Error("Erro ao atualizar o usuário")
+    }
     return updateUser;
 }
