@@ -50,9 +50,7 @@ export const createUser = async (user: usersModel) => {
   return user;
 };
 
-
-
-export const deleteOneUSer = async (id : number) =>{
+export const deleteOneUser = async (id : number) =>{
   const index = usersDataBase.findIndex((user) => user.id === id);
 
   if(index === -1){
