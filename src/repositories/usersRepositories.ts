@@ -44,7 +44,7 @@ export const findUserByEmail= async (
   return usersDataBase.find((user) => user.email === email );
 };
 
-export const createUser = async (user: usersModel) => {
+export const createUser = async (user: usersModel): Promise<usersModel> => {
   usersDataBase.push(user);
 
   return user;
@@ -54,7 +54,7 @@ export const deleteOneUser = async (id : number) =>{
   const index = usersDataBase.findIndex((user) => user.id === id);
 
   if(index === -1){
-    false
+    return false;
   }
 
   usersDataBase.splice(index, 1);
@@ -67,9 +67,10 @@ export const updateUser = async (id: number, body : usersModel): Promise<usersMo
   const userIndex = usersDataBase.findIndex( (user)=> user.id === id);
 
   if(userIndex !== -1){
-    usersDataBase[userIndex] = body;
 
+    usersDataBase[userIndex] = {...usersDataBase[userIndex], ...body};
     return usersDataBase[userIndex];
+
   }else{
     return null;
   }
