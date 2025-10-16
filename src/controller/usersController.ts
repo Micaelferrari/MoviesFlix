@@ -35,20 +35,40 @@ export const createUser = async (req: Request, res: Response) => {
     return res.status(400).json({ error: "Nome e email são obrigatórios" });
   }
 
-  if(typeof name !== "string" || typeof email !== "string"){
-    return res.status(400).json({error :"Nome e Email devem ser string"})
+  if (typeof name !== "string" || typeof email !== "string") {
+    return res.status(400).json({ error: "Nome e Email devem ser string" });
   }
 
- try {
+  try {
+    const data = await serviceUser.createUser(id, name, email);
 
-  const data = await serviceUser.createUser(id, name, email);
-
-  res.status(201).json({data, message :"Usuário criado com sucesso"})
- } catch (error : any) {
-  console.log(error.message);
+    res.status(201).json({ data, message: "Usuário criado com sucesso" });
+  } catch (error: any) {
+    console.log(error.message);
     return res.status(500).json("Erro no servidor");
- }
-}
-export const deleteUser = async (req: Request, res: Response) => {};
+  }
+};
+export const deleteUser = async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+
+  if (!id) {
+    return res
+      .status(400)
+      .json({ error: "Id é obrigatório para completar a ação." });
+  }
+
+  try {
+    const userDeleted = await serviceUser.deleteUser(id);
+
+    if (!userDeleted) {
+      return res.status(404).json({ error: "Usuário Não encontrado." });
+    }
+
+    return res.status(200).json({ message: "Usuário deletado com sucesso!" });
+  } catch (error: any) {
+    console.log(error.message);
+    return res.status(500).json({ error: "Erro no servidor" });
+  }
+};
 
 export const updateUser = async (req: Request, res: Response) => {};
