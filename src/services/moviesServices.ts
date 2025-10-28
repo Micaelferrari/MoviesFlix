@@ -1,4 +1,3 @@
-import { updateMovie } from './../controller/moviesController';
 import { MoviesModel } from "./../models/MoviesModel";
 import * as MoviesRepositories from "./../repositories/MoviesRepositories";
 
