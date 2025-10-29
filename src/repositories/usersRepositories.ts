@@ -44,10 +44,18 @@ export const findUserByEmail= async (
   return usersDataBase.find((user) => user.email === email );
 };
 
-export const createUser = async (user: usersModel): Promise<usersModel> => {
-  usersDataBase.push(user);
+export const createUser = async (name : string, email : string): Promise<usersModel> => {
 
-  return user;
+  const id = usersDataBase.length +1;
+
+  const newUser : usersModel = {
+    id,
+    name,
+    email
+  }
+  usersDataBase.push(newUser);
+
+  return newUser;
 };
 
 export const deleteOneUser = async (id : number) =>{
@@ -57,9 +65,10 @@ export const deleteOneUser = async (id : number) =>{
     return false;
   }
 
+  const deletedUser = usersDataBase[index];
   usersDataBase.splice(index, 1);
 
-  return true;
+  return deletedUser;
 }
 
 export const updateUser = async (id: number, body : usersModel): Promise<usersModel | null > =>{

@@ -1,4 +1,5 @@
-import { usersModel } from './../models/usersModel';
+import { findUserById } from "./../repositories/usersRepositories";
+import { usersModel } from "./../models/usersModel";
 import { Request, Response } from "express";
 import * as serviceUser from "../services/userService";
 
@@ -21,16 +22,20 @@ export const getUserById = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
 
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "ID inválido" });
+    }
+
     const data = await serviceUser.getUserById(id);
     return res.status(200).json(data);
   } catch (error: any) {
     console.log(error.message);
-    return res.status(500).json("Erro no servidor");
+    return res.status(500).json({ error: error.message || "Erro no servidor" });
   }
 };
 
 export const createUser = async (req: Request, res: Response) => {
-  const { id, name, email } = req.body;
+  const { name, email } = req.body;
 
   if (!name || !email) {
     return res.status(400).json({ error: "Nome e email são obrigatórios" });
@@ -41,17 +46,19 @@ export const createUser = async (req: Request, res: Response) => {
   }
 
   try {
-    const data = await serviceUser.createUser(id, name, email);
+    const data = await serviceUser.createUser(name, email);
 
     res.status(201).json({ data, message: "Usuário criado com sucesso" });
   } catch (error: any) {
     console.log(error.message);
-    return res.status(500).json("Erro no servidor");
+    return res.status(500).json({ error: error.message || "Erro no servidor" });
   }
 };
 export const deleteUser = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
-
+  if (isNaN(id)) {
+    return res.status(400).json({ error: "ID inválido" });
+  }
   if (!id) {
     return res
       .status(400)
@@ -59,13 +66,13 @@ export const deleteUser = async (req: Request, res: Response) => {
   }
 
   try {
-    const userDeleted = await serviceUser.deleteUser(id);
+    const userDeletedFind = await serviceUser.getUserById(id);
 
-    if (!userDeleted) {
+    if (!userDeletedFind) {
       return res.status(404).json({ error: "Usuário ão encontrado." });
     }
-
-    return res.status(200).json({ message: "Usuário deletado com sucesso!" });
+    const userDeleted = await serviceUser.deleteUser(id);
+    return res.status(200).json({ message: "Usuário deletado com sucesso!"});
   } catch (error: any) {
     console.log(error.message);
     return res.status(500).json({ error: "Erro no servidor" });
@@ -75,15 +82,15 @@ export const deleteUser = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
 
-  const {name, email} = req.body;
+  const { name, email } = req.body;
 
-  const userData : usersModel = {
-    id : id,
-    name : name,
-    email : email
-  }
+  const userData: usersModel = {
+    id: id,
+    name: name,
+    email: email,
+  };
 
-if (!id) {
+  if (!id) {
     return res
       .status(400)
       .json({ error: "Id é obrigatório para completar a ação." });
@@ -92,17 +99,20 @@ if (!id) {
   try {
     const userUpdatedExist = await serviceUser.getUserById(id);
 
-    if(!userUpdatedExist){
-      return res.status(404).json({ error: "Usuário não encontrado para realizar a atualização."})
+    if (!userUpdatedExist) {
+      return res
+        .status(404)
+        .json({ error: "Usuário não encontrado para realizar a atualização." });
     }
 
     const userUpdated = await serviceUser.updateUser(id, userData);
-    
-    return res.status(200).json({message : "Usuário atualizado com sucesso!", userUpdated});
-  } catch (error : any) {
+
+    return res
+      .status(200)
+      .json({ message: "Usuário atualizado com sucesso!", userUpdated });
+  } catch (error: any) {
     console.log(error.message);
     return res.status(500).json({ error: "Erro no servidor" });
   }
-
-
+  //corrigir o usuário atualizando por completo
 };

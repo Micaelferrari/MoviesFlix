@@ -28,22 +28,16 @@ export const getUserById = async (id: number) => {
   }
 };
 
-export const createUser = async (id: number, name: string, email: string) => {
+export const createUser = async ( name: string, email: string) => {
   try {
-    const userIdExist = await usersRepositories.findUserById(id);
     const userEmailExist = await usersRepositories.findUserByEmail(email);
 
-    if (userIdExist) {
-      throw new Error("Usuário já existente.");
-    }
 
     if (userEmailExist) {
       throw new Error("Email já cadastrado.");
     }
 
-    const newUser: usersModel = { id, name, email };
-
-    const createdUser = await usersRepositories.createUser(newUser);
+    const createdUser = await usersRepositories.createUser(name, email);
 
     return createdUser;
   } catch (error: any) {
