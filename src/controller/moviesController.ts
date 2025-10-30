@@ -40,13 +40,13 @@ export const getMovieById = async (req: Request, res: Response) => {
 
 export const createMovie = async (req: Request, res: Response) => {
   try {
-    const { id, name, description } = req.body;
+    const { name, description } = req.body;
 
     if (!name || !description) {
       return res.status(404).json("Nome e Descrição são obrigatórios");
     }
 
-    const data = await service.createMovieService(id, name, description);
+    const data = await service.createMovieService( name, description);
 
     res.status(201).json({data, message : " Filme criado com sucesso"});
   } catch (error: any) {
@@ -91,6 +91,3 @@ export const updateMovie = async (req: Request, res: Response) => {
   }
 };
 
-
-//validar existencia de um usuário, services
-//

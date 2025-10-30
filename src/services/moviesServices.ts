@@ -2,27 +2,43 @@ import { MoviesModel } from "./../models/MoviesModel";
 import * as MoviesRepositories from "./../repositories/MoviesRepositories";
 
 export const getAllMoviesService = async () => {
-  const data = await MoviesRepositories.findAllMovies();
-  return data;
+  try {
+
+    const movies = await MoviesRepositories.findAllMovies();
+  
+    if(!movies|| movies.length === 0){
+      throw new Error("Nenhum filme encontrado.");
+    }
+    return movies;
+
+  } catch (error : any) {
+    throw new Error(error.message || "Erro ao buscar usuários.");
+  }
 };
 
 export const getMovieByIdService = async (id: number) => {
-  //pedir para o repositório
+try {
+  
   const data = MoviesRepositories.findMovieById(id);
 
+  if(!data){
+    throw new Error("Filme não encontrado.");
+  }
+
   return data;
+} catch (error : any) {
+  throw new Error(error.message || "Erro ao filme usuário.");
+}
 };
 
 export const createMovieService = async (
-  id: number,
   name: string,
   description: string
 ) => {
   //implementar validações
 
-  const newMovie: MoviesModel = { id, name, description };
 
-  const creatMovie = MoviesRepositories.creatMovie(newMovie);
+  const creatMovie = MoviesRepositories.creatMovie(name, description);
 
   return creatMovie;
 };

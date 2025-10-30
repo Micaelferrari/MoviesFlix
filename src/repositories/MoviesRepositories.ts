@@ -60,11 +60,18 @@ export const findMovieById = async (
   return dataBase.find((movie) => movie.id === id);
 };
 
-export const creatMovie = async (
-  movie: MoviesModel
-): Promise<MoviesModel | undefined> => {
-  dataBase.push(movie);
-  return movie;
+export const creatMovie = async (name : string, description : string): Promise<MoviesModel | undefined> => {
+
+  const id = dataBase.length +1;
+
+  const newMovie : MoviesModel = {
+    id, 
+    name,
+    description
+  }
+
+  dataBase.push(newMovie);
+  return newMovie;
 };
 
 export const deleteOneMovie = async (id: number) => {
